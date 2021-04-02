@@ -6,5 +6,10 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Document
     body 
-       div.container 123
-    
+       div.container 
+        each val in data 
+            div 1
+            div #{val.title} 
+            div #{val.content} 
+            div= val.time
+        
