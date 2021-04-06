@@ -9,9 +9,9 @@ const connection = mysql.createConnection({
     password: '1234'
 });
 
-data.forEach(element => {
-    connection.query('INSERT INTO news (title,content,time) VALUES (?,?,?) ', [element.title, element.content, element.time], (err, result, fields) => {
-        console.log(err, result, fields)
+// data.forEach(element => {
+//     connection.query('INSERT INTO news (title,content,time) VALUES (?,?,?) ', [element.title, element.content, element.time], (err, result, fields) => {
+//         console.log(err, result, fields)
 
-    })
-});
+//     })
+// });

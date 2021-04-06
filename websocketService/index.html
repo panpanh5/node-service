@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+      <button onclick="sub()">发送</button>
+    <script>
+      // onopen=1成功   close:关闭  message：接收消息
+      var ws = new WebSocket("ws://localhost:8081");
+      ws.onopen = function () {
+        console.log("连接成功!");
+      };
+      ws.onmessage = function (ws) {
+        console.log(ws.data);
+      };
+      function sub() {
+        ws.send("发送到服务端的数据");
+      }
+    </script>
+  </body>
+</html>
