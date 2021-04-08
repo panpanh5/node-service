@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>promise</title>
+  </head>
+  <body>
+    <script>
+      //   let test = new Promise((resolve, reject) => {
+      //     console.log("test1");
+      //   })
+      //     .then(() => {
+      //       console.log("test2");
+      //     })
+      //     .then(() => {
+      //       console.log("test3");
+      //     });
+      //   test.then(); //打印test 1
+      //   let test = new Promise((resolve, reject) => {
+      //     console.log(resolve);
+      //     // resolve();
+      //     throw Error();
+      //     // reject();
+      //   })
+      //     .then(() => {
+      //       console.log("test2");
+      //     })
+      //     .then(() => {
+      //       console.log("test3");
+      //     })
+      //     .catch(() => {
+      //       console.log("出错了！");
+      //     });
+      //   test.then(); //打印test1 出错了！
+
+      // await  async
+      //   testAwaits = new Promise(function (resolve, reject) {
+      //     {
+      //       console.log(1);
+      //       setTimeout(() => {
+      //         console.log(3);
+      //       }, 0);
+      //       resolve();
+      //     }
+      //   }).then(() => {
+      //     console.log(2);
+      //   });
+      //   async function test() {
+      //     console.log("开始");
+      //     await testAwaits.then();
+      //     console.log("结束");
+      //   }
+      //   test(); // 1 开始 2 结束 3
+      function* fn() {
+        yield new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log("a");
+            resolve(1);
+          }, 500);
+        });
+        yield new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log("b");
+            resolve(2);
+          }, 500);
+        });
+        yield new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log("c");
+            resolve(3);
+          }, 500);
+        });
+      }
+      co(fn);
+      function co(fn) {
+        let f = fn();
+        next();
+        function next(data) {
+          let result = f.next();
+          if (!result.done) {
+            // 上一个异步走完了，再执行下一个异步
+            result.value.then((info) => {
+              console.log(info, data);
+              next(info);
+            });
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 实现一个add函数 支持如下调用
+       * add(1,2)(3)
+       * console.log(add)//6
+       *
+       * add(1)(2,3)(4)
+       * consoloe.log(add)//10
+       *
+       * add(1)(2)(3)(4)(5)
+       * consoloe.log(add)//15
+       * 函数柯里化
+       **/
+      // 网上拷贝
+      //   function add(...args) {
+      //     return args.reduce((a, b) => a + b);
+      //   }
+      // function currying (fn) {
+      // 	let args = []
+      // 	return function _c (...newArgs) {
+      // 		if (newArgs.length) {
+      // 			args = [
+      // 				...args,
+      // 				...newArgs
+      // 			]
+      // 			return _c
+      // 		} else {
+      // 			return fn.apply(this, args)
+      // 		}
+      // 	}
+      // }
+
+      // let addCurry = currying(add)
+      // // 注意调用方式的变化
+      // console.log(addCurry(1)(2)(3)(4, 5)())
+      // 结束
+      // 自己写
+      let sum = function (...arg) {
+        return arg.reduce((x, y) => x + y);
+      };
+      let add1 = function (fn) {
+        console.log(fn);
+      };
+      let add = add1(sum);
+      console.log(add(1, 2, 3));
+    </script>
+  </body>
+</html>
