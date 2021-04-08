@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>使用ajax来上传文件到服务器</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+      .layout {
+        margin: 0 auto;
+        width: 500px;
+        height: 600px;
+        border: 1px solid #ccc;
+      }
+      .show {
+        height: 400px;
+      }
+      .footer {
+        border-top: 1px solid #ccc;
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <div class="show"></div>
+      <div class="footer">
+        <input type="file" id="myfile" />
+        <button onclick="sendFile()">发送</button>
+      </div>
+    </div>
+    <script>
+      let sendFile = function () {
+        let formData = new FormData();
+        formData.append("file", document.querySelector("#myfile").files[0]);
+        $.ajax({
+          url: "http://localhost:7777/admin/addData",
+          type: "POST",
+          // contentType: "multipart/form-data",
+          dataType: "json",
+          processData: false,
+          contentType: false,
+          processData: false, // 增加这一行，不处理参数
+          data: formData,
+          success: function (result) {
+            console.log(result);
+          },
+        });
+        // let xhr = new XMLHttpRequest();
+        // xhr.open("post", "http://localhost:7777/admin/addData", true);
+        // xhr.onload = function () {
+        //   console.log(xhr.responseText);
+        // };
+        // xhr.send(formData);
+      };
+    </script>
+  </body>
+</html>

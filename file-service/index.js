@@ -5,17 +5,20 @@ const koaBody = require("koa-body");
 const views = require("koa-views");
 const static = require("koa-static");
 const Router = require("koa-router");
+var cors= require('koa2-cors');
+app.use(cors())
+
 const router = new Router();
-app.use(
-  views(__dirname + "/views", {
-    extension: "pug",
-  })
-);
+// app.use(
+//   views(__dirname + "/views", {
+//     extension: "pug",
+//   })
+// );
 app.use(static(__dirname + "/static"));
 
-router.get("/", async (ctx) => {
-  await ctx.render("index");
-});
+// router.get("/", async (ctx) => {
+//   await ctx.render("index");
+// });
 
 router.post("/admin/addData", (ctx) => {
   console.log(ctx.request.body);
@@ -25,8 +28,8 @@ router.post("/admin/addData", (ctx) => {
   if (!fs.existsSync("static/uploadFiles")) {
       fs.mkdirSync('static/uploadFiles')
   }
-  fs.writeFileSync('static/uploadFiles/'+ctx.request.files.img.name,
-  fs.readFileSync(ctx.request.files.img.path))
+  fs.writeFileSync('static/uploadFiles/'+ctx.request.files.file.name,
+  fs.readFileSync(ctx.request.files.file.path))
 //   然后将/uploadFiles+文件名存到数据库中就可以了
   ctx.body = "";
 });
