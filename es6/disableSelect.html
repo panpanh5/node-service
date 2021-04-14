@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>禁用选区</title>
+    <style>
+      /* .container {
+        user-select: none;
+      } */
+    </style>
+  </head>
+  <body>
+    <div class="container">11111111111</div>
+    <div class="footer">footer</div>
+    <script>
+      // 当检测到要创建选中区域的时候，，创建全屏或者阻止这种行为
+      //   document.querySelector('.container')
+      document.body.onselectstart = function (e) {
+        e.preventDefault();
+      };
+      document.body.oncopy = function (e) {
+        e.preventDefault();
+      };
+    </script>
+  </body>
+</html>

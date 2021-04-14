@@ -5,8 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="./mvvm.js"></script>
 </head>
 <body>
+    <div class="app">
+        {{message}}
+    </div>
     <!-- 实现vue  ：双向绑定的原理---- -->
+    <script>
+        new Vue({
+            data:{
+                message:'绑定数据'
+            }
+        })
+    </script>
 </body>
 </html>

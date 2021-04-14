@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>xhr</title>
+    <style>
+      .progress {
+        position: relative;
+      }
+      .progress-down,
+      .progress-up {
+        width: 200px;
+        height: 10px;
+        background: #000;
+        border-radius: 10px;
+      }
+      .progress-up {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0px;
+        background: #444;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <button onclick="sendMessage()">发送ajax请求</button> -->
+    <input type="file" class="myFile" />
+    <!-- 进度条 -->
+    <div class="progress">
+      <div class="progress-down"></div>
+      <div class="progress-up"></div>
+    </div>
+    <!-- 结束 -->
+    <button onclick="saveFile()">点击保存到后端</button>
+  </body>
+  <script>
+    /**
+        let sendMessage = function () {
+        let xhr = new XMLHttpRequest();
+        // true  同步  false  异步
+        xhr.open("get", "http:localhost:7777/testXhr");
+        xhr.onload = (data) => {
+            // console.log(data);
+            console.log(xhr); //后打印
+        };
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText); //先打印
+            }
+        };
+        //   xhr.onreadystatechange = function (data) {
+        //     console.log(data);
+        //   };
+        // 如果是post参数放在  send(参数)
+        xhr.send();
+        };
+    *
+    **/
+
+    // 上传文件进度
+    saveFile = function () {
+      let formData = new FormData();
+      formData.append("file", document.querySelector(".myFile").files[0]);
+      let xhr = new XMLHttpRequest();
+      xhr.open("post", "http://localhost:7777/addFile", true);
+      xhr.onload = function () {
+        console.log(xhr.responseText);
+      };
+      xhr.upload.onloadstart = function () {
+        let time = new Date().getTime();
+        sloaded = 0;
+        console.log(time);
+      };
+      xhr.upload.onprogress = function (evt) {
+        console.log(evt);
+      };
+      xhr.upload.onloadend = function () {
+        // document.querySelector(".progress-up").getBoundingClientRect();
+        document.querySelector(".progress-up").style.width = 100 + "px";
+      };
+      xhr.send(formData);
+    };
+  </script>
+</html>
