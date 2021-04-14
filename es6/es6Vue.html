@@ -8,12 +8,14 @@
     <script src="./mvvm.js"></script>
 </head>
 <body>
-    <div class="app">
+    <div id="app">
         {{message}}
+        <div>{{message}}</div>
     </div>
     <!-- 实现vue  ：双向绑定的原理---- -->
     <script>
         new Vue({
+            el:'#app',
             data:{
                 message:'绑定数据'
             }

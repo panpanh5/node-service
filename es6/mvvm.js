@@ -1,6 +1,16 @@
 class Vue {
-    constructor(data){
-        console.log(data)
-        // super()
-    }
+  constructor(options) {
+    // super()
+    this.$options = options;
+    this.complie();
+  }
+  complie() {
+    let el = document.querySelector(this.$options.el);
+    console.log(el);
+    this.complieNode(el);
+  }
+  complieNode(el) {
+    // 标签
+    // 文本
+  }
 }
