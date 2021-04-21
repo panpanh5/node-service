@@ -1,9 +1,9 @@
-class Vue {
+class Vue extends EventTarget {
     constructor(options) {
-        // super()
+        super()
         this.$options = options;
         this.complie();
-        this.observe()
+        this.observe(this.$options.data)
     }
     complie() {
         let el = document.querySelector(this.$options.el);
@@ -73,30 +73,49 @@ class Vue {
         if (reg.test(node.textContent)) {
             let $1 = RegExp.$1;
             node.textContent = node.textContent.replace(reg, this.$options.data[$1]);
-            console.log(node.textContent)
+            // console.log(this.$options.data[$1])
+            this.addEventListener($1, e => {
+                // console.log("触发了修改..");
+                // 重新渲染视图；
+                console.log(this.$options.data[$1]);
+                let oldValue = this.$options.data[$1];
+                // let reg = /oldValue/g
+                // oldValue变量
+                let reg = new RegExp(oldValue);
+                console.log(reg)
+                node.textContent = node.textContent.replace(reg, e.detail);
+            })
         }
     }
     // 数据劫持看数据是否改变
-    observe() {
-        let nodes = Object.keys(this.$options.data);
+    observe(data) {
+        let nodes = Object.keys(data);
         nodes.forEach(v => {
-            this.nodeChange(this.$options.data, v, this.$options.data[v])
+            this.nodeChange(data, v, data[v])
         })
     }
     /**
      * 劫持数据
      */
     nodeChange(node, key, val) {
-        console.log(val)
+        const _this = this
         Object.defineProperty(node, key, {
             configurable: true,
             enumerable: true,
             get() {
-                return value
+                return val
             },
-            set(value) {
-                console.log(value);
-                val = value
+            set(newValue) {
+                // node.textContent = node.textContent.replace(reg, e.detail);
+
+                // 设置自定义事件
+                let event = new CustomEvent(key, {
+                    detail: newValue
+                });
+                // 自定义事件的触发
+                _this.dispatchEvent(event);
+                //数据劫持将新的值赋值给旧值---如果在自定义事件触发之前--则自定义事件拿不到原来的值，拿到的将是设置后的新值
+                val = newValue
             }
         });
     }

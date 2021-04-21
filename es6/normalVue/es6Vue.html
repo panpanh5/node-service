@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./mvvm.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      {{ message }}
+      <div>{{ htmlData }}</div>
+      <input type="text" v-html="modeData" />{{modeData}}
+    </div>
+
+    <!-- 实现vue  ：双向绑定的原理---- -->
+    <script>
+      let vm = new Vue({
+        el: "#app",
+        data: {
+          message: "绑定数据",
+          modeData: "自定义指令数据",
+          htmlData: "测试数据666",
+        },
+      });
+      console.log(vm);
+      setTimeout(() => {
+        vm.$options.data.message = "123";
+      }, 2000);
+    </script>
+  </body>
+</html>
