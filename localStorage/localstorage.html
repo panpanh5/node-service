@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>仿写缓存</title>
+    <style>
+      .container {
+        width: 100px;
+        height: 100px;
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <button onclick="changeSkin()">换肤功能</button>
+      <div class="container"></div>
+    </div>
+    <script>
+      changeSkin = function () {
+        //   随机生成一个十六进制数
+        //   let color=
+        document.querySelector(".container").style.background = "#eee";
+      };
+      window.onload = function () {};
+    </script>
+  </body>
+</html>
