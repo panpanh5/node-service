@@ -19,12 +19,29 @@
       <div class="container"></div>
     </div>
     <script>
+      var color;
       changeSkin = function () {
         //   随机生成一个十六进制数
+        let number = Math.random() * 100000;
+        this.color = parseInt(number, 16);
         //   let color=
-        document.querySelector(".container").style.background = "#eee";
+        document.querySelector(".container").style.background = `#${parseInt(
+          number,
+          16
+        )}`;
+        // localStorage.setItem("skin", color);
       };
-      window.onload = function () {};
+      window.onload = function () {
+        let skin = localStorage.getItem("skin");
+        if (skin) {
+          console.log(skin);
+          document.querySelector(".container").style.background = `#${skin}`;
+        }
+      };
+      window.onunload = function () {
+        localStorage.setItem("skin", color);
+      };
+      console.log(window);
     </script>
   </body>
 </html>

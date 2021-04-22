@@ -31,8 +31,6 @@ class Vue extends EventTarget {
             }
         });
         // 标签
-
-
     }
     // 标签
     labelNode(node) {
