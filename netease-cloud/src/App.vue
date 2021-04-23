@@ -13,6 +13,7 @@
       <div class="container">
         <router-view />
       </div>
+      <div class="footer"></div>
     </div>
   </div>
 </template>
@@ -80,6 +81,14 @@ export default {
     .header-bottom {
       background-color: #c20c0c;
       height: 5px;
+    }
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 50px;
+      width: 100%;
+      background: url("assets/playbar.png");
     }
   }
 }
