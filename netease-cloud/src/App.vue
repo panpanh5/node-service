@@ -4,7 +4,7 @@
       <div class="header">
         <div v-for="item in navList" :key="item.id" class="item">
           <div>
-            {{ item.title }}
+            <router-link :to="item.path"> {{ item.title }}</router-link>
           </div>
           <div class="arrow"></div>
         </div>
@@ -13,7 +13,9 @@
       <div class="container">
         <router-view />
       </div>
-      <div class="footer"></div>
+      <div class="footer">
+        <div class="footer-container"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -26,13 +28,13 @@ export default {
         {
           id: 0,
           title: "发现音乐",
-          routerLink: "findMusic",
+          path: "findMusic",
         },
-        { id: 1, title: "我的音乐", routerLink: "myMusic" },
-        { id: 2, title: "朋友", routerLink: "friend" },
-        { id: 3, title: "商城", routerLink: "shop" },
-        { id: 4, title: "音乐人", routerLink: "musicPerosn" },
-        { id: 5, title: "下载客户端", routerLink: "download" },
+        { id: 1, title: "我的音乐", path: "myMusic" },
+        { id: 2, title: "朋友", path: "friend" },
+        { id: 3, title: "商城", path: "shop" },
+        { id: 4, title: "音乐人", path: "musicPerosn" },
+        { id: 5, title: "下载客户端", path: "download" },
       ],
     };
   },
@@ -42,6 +44,10 @@ export default {
 * {
   margin: 0;
   padding: 0;
+}
+a {
+  text-decoration: none;
+  color: #cccccc;
 }
 #app {
   width: 100%;
@@ -80,7 +86,7 @@ export default {
     }
     .header-bottom {
       background-color: #c20c0c;
-      height: 5px;
+      height: 34px;
     }
     .footer {
       position: absolute;
@@ -88,7 +94,16 @@ export default {
       left: 0;
       height: 50px;
       width: 100%;
-      background: url("assets/playbar.png");
+      .footer-container {
+        background: url("assets/playbar.png");
+        display: none;
+        height: 100%;
+      }
+    }
+    .footer:hover {
+      .footer-container {
+        display: block;
+      }
     }
   }
 }
