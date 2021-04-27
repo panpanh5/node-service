@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>socketIo网页前端</title>
+    <script src="./socket.io.js" type="text/javascript"></script>
+    <style>
+      .chatContainer {
+        width: 230px;
+        height: 200px;
+      }
+      .show {
+        height: 100px;
+        border: 1px solid #000;
+      }
+      .left-show {
+        text-align: left;
+      }
+      .right-show {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 网页版：聊天---例如商城客服
+         可以用户发给客服，客服id是固定的，然后客服发给用户消息的时候会带上
+    -->
+    <div class="chatContainer">
+      <!-- 聊天容器 -->
+      <div class="show">
+        <span class="show-end"></span>
+      </div>
+      <div class="inputMessage">
+        <textarea name="" id="messageContent" cols="30" rows="10"></textarea>
+      </div>
+      <div><button onclick="sendMessage()">发送</button></div>
+    </div>
+    <script>
+      var socket = io("http://localhost:8082");
+      const data = {
+        name: 123,
+      };
+      let clientId = "";
+      var socketId = parseInt(Math.random(0, 1) * 10);
+
+      socket.on("clientId", (data) => {
+        clientId = data.clientId;
+      });
+      socket.on("news", function (data) {
+        socket.emit("chat1", "123");
+      });
+      let sendMessage = function () {
+        let value = document.getElementById("messageContent").value;
+        socket.emit("chatMessage", {
+          id: clientId,
+          content: value,
+        });
+        let show = document.querySelector(".show");
+        // .innerHTML = data.message
+        let target = document.createElement("div");
+        target.innerHTML = value;
+        target.className = "right-show";
+        show.appendChild(target);
+        document
+          .querySelector(".show")
+          .insertBefore(target, document.querySelector(".show-end"));
+        document.getElementById("messageContent").value = null;
+      };
+      socket.on("send", (data) => {
+        let show = document.querySelector(".show");
+        // .innerHTML = data.message
+        let target = document.createElement("div");
+        target.innerHTML = data.message;
+        target.className = "left-show";
+        show.appendChild(target);
+        document
+          .querySelector(".show")
+          .insertBefore(target, document.querySelector(".show-end"));
+      });
+    </script>
+  </body>
+</html>
