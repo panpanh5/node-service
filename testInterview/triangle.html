@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>绘制三角形</title>
+    <style>
+      /* 第一种 */
+      /* .triangle {
+        height: 10px;
+        width: 0;
+        border: 10px solid transparent;
+        border-top-color: #f00;
+      } */
+      /* 第三种 */
+      .triangle {
+        width: 20px;
+        height: 20px;
+        background-color: #f00;
+        transform: rotate(45deg);
+      }
+      .mask {
+        width: 30px;
+        height: 15px;
+        background: #fff;
+        position: relative;
+        top: -10px;
+        left: -5px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+          1.高度和边框
+          2.画布canvas-利用路径绘制三角形然后填充颜色
+          3.一个正方形旋转45度，然后遮掉一半
+       -->
+    <!-- 边框 -->
+    <!-- <div class="triangle"></div> -->
+    <!-- canvas -->
+    <!-- <canvas id="triangle"></canvas> -->
+    <!-- 第三种 -->
+    <div class="triangle"></div>
+    <div class="mask"></div>
+    <script>
+      //   let c = document.getElementById("triangle");
+      //   let ctx = c.getContext("2d");
+      //   ctx.beginPath();
+      //   ctx.moveTo(20, 20);
+      //   ctx.lineTo(20, 100);
+      //   ctx.lineTo(70, 100);
+      //   ctx.closePath();
+      //   //   ctx.fillStyle = "red";
+      //   //   ctx.fill();
+      //   ctx.strokeStyle = "red";
+      //   ctx.stroke();
+      //   第三种旋转遮掉
+    </script>
+  </body>
+</html>

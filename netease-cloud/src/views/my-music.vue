@@ -2,26 +2,32 @@
   <div class="my-music">
     <div v-if="isLogin">1</div>
 
-    <!-- <div v-else class="empty_login">
+    <div v-else class="empty_login">
       <div class="go_login">
         <a @click="login" hidefocus="true"></a>
       </div>
-    </div> -->
+    </div>
     <!-- 登录弹出层 -->
     <template>
       <div class="popup" v-show="isShowLogin">
-        <div
-          class="header"
-          @mousedown.stop="mousedown($event)"
-          @mouseup.stop="mouseup()"
-          @mouseleave="mouseleave()"
-        >
-          <div class="right" @click="isShowLogin = !isShowLogin">X</div>
+        <div>
+          <div
+            class="header"
+            @mousedown.stop="mousedown($event)"
+            @mouseup.stop="mouseup()"
+            @mouseleave="mouseleave()"
+          >
+            <div class="right" @click="isShowLogin = !isShowLogin">X</div>
+          </div>
         </div>
         <div class="container">
           <img src="../assets/qr_guide.png" alt="" />
-          <div><el-button round>选择其他登录方式登录</el-button></div>
+          <div>
+            <span>扫码登录</span>
+            <div>二维码</div>
+          </div>
         </div>
+        <div><el-button round>选择其他登录模式</el-button></div>
       </div>
     </template>
   </div>
@@ -35,13 +41,14 @@ function localStorage() {
   this.isLogin = Boolean(usr);
   console.log(this.isLogin);
 }
+
 // 应该是在缓存中判断有没有登录过，没有显示登录界面，登录了显示我的音乐界面
 export default {
   // 变量数据
   data() {
     return {
       isLogin: false,
-      isShowLogin: true,
+      isShowLogin: false,
     };
   },
   // 方法数据
@@ -66,10 +73,26 @@ export default {
     mouseleave: function () {
       document.querySelector(".header").onmousemove = false;
     },
+    myLogin: function () {
+      console.log(this.$axios);
+      // 为给定 ID 的 user 创建请求
+      this.$axios
+        .post(
+          "http://localhost:41004/api/gl-service-sys-user/v1/user/system/auth/login",
+          { data: "39a995b6fe1da1a99c00f91c2424f274022280f15117eb51" }
+        )
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
   created() {},
   mounted() {
     this.localStorage();
+    this.myLogin();
   },
 };
 </script>
@@ -123,9 +146,15 @@ export default {
     }
   }
   .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     & > img {
       height: 220px;
     }
+  }
+  .container + div {
+    text-align: center;
   }
 }
 </style>

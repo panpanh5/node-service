@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="layout">
-      <!-- <div class="header">
+      <div class="header">
         <div class="logo"></div>
         <div
           v-for="item in navList"
@@ -16,7 +16,7 @@
           <div class="arrow"></div>
         </div>
       </div>
-      <div class="header-bottom"></div> -->
+      <div class="header-bottom"></div>
       <div class="container">
         <router-view />
       </div>
@@ -56,7 +56,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 * {
   margin: 0;
   padding: 0;
