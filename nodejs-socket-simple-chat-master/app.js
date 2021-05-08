@@ -3,172 +3,172 @@ var express = require('express')
     , server = require('http').createServer(app)
     , io = require('socket.io').listen(server);
 
-/*¼àÌý¶Ë¿Ú*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½Ë¿ï¿½*/
 server.listen(3000, function () {
     console.log('listening port: 3000')
 });
 
-/*ÉèÖÃ¾²Ì¬×ÊÔ´Ä¿Â¼*/
+/*ï¿½ï¿½ï¿½Ã¾ï¿½Ì¬ï¿½ï¿½Ô´Ä¿Â¼*/
 app.use('/static', express.static('static'));
 
-/*Ä¬ÈÏÂ·ÓÉ*/
+/*Ä¬ï¿½ï¿½Â·ï¿½ï¿½*/
 app.get('/', function (req, res) {
     res.sendfile(__dirname + '/index.html');
 });
 
 
-var connectionList = {}; //´æ´¢µ±Ç°Á¬½ÓÐÅÏ¢
+var connectionList = {}; //ï¿½æ´¢ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 users = [];
 groups = [];
 usocket = [];
-/*¿Í»§¶Ë½¨Á¢Á¬½Ó*/
+/*ï¿½Í»ï¿½ï¿½Ë½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
 io.sockets.on('connection', function (socket) {
-	console.log("¸Õ½ø²é¿´"+socket);
+    console.log("ï¿½Õ½ï¿½ï¿½é¿´" + socket);
     var socketId = socket.id;
-	//console.log(socketId+"11111");
-	
-    /*¿Í»§¶ËÁ¬½ÓÊ±£¬±£´æsocketIdºÍÓÃ»§Ãû*/
+    //console.log(socketId+"11111");
+
+    /*ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½socketIdï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½*/
     connectionList[socketId] = {
         socket: socket
     };
-	
-    /* ÓÃ»§½øÈëÁÄÌìÊÒ£¬ÏòÆäËûÓÃ»§¹ã²¥ÆäÓÃ»§Ãû*/
+
+    /* ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ã²¥ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½*/
     socket.on('join', function (data) {
-		
-		var flag = 0;
-		for(var u =0;u<users.length;u++){
-			if(data.isDoc==1){
-				if(users[u].userId==data.docId){
-					flag = 1;
-					break;
-				}
-			}else{
-				if(users[u].userId==data.username){
-					flag = 1;
-					break;
-				}
-			}
-		}
-		if(data.isDoc==0){//»áÔ±½øÈë
-			//ÅÐ¶ÏÒ½ÉúÊÇ·ñÔÚÏß
-			for(var g =0;g<groups.length;g++){
-				if(groups[g].docId==data.docId){//Ò½ÉúÔÚÏß
-				console.log(data.docId+"000000000000000000000");
-					if(groups[g].openId==data.username){//ÕýÔÚÁÄÌì
-					console.log(data.username+"---------------------");
-						//socket.broadcast.emit('broadcast_join', data);
-						
-					}else{
-						socket.broadcast.emit('broadcast_quit', {
-						username: data.username
-					});
-					}
-				}else {//Ò½Éú²»ÔÚÏß
-					
-				}
-			}
-		}
-		if(flag == 0) {
-			date = new Date(),
-			//console.log(data.username + ' join, IP: ' + socket.client.conn.remoteAddress);
-			connectionList[socketId].username = data.username;
-			var nodeUser = new Object(); //ÓÃ»§¶ÔÏó
-			console.log(data.isDoc+"is doc");
-			if(data.isDoc==1){//Ò½ÉúµÇÂ¼
-				nodeUser.userId = data.docId;;			//Ò½Éúid
-				usocket[data.docId] = socket;
-				console.log("doc socket"+usocket[data.docId]);
-			}else{
-				nodeUser.userId = data.username;;			//ÓÃ»§id
-				usocket[data.username] = socket;
-				console.log("user socket"+usocket[data.username]);
-			}
-			nodeUser.joinTime = date,
-			nodeUser.socketId = socketId;		//socketID
-			nodeUser.isDoc=data.isDoc;
-			users.push(nodeUser);	     //Êý×éÖÐÌí¼Ó¶ÔÏónodeUser
-			var groupUser = new Object(); //ÓÃ»§¶ÔÏó
-			if(data.isDoc==1){//Ò½ÉúµÇÂ¼
-				groupUser.openId = data.username;
-				groupUser.docId = data.docId;
-				groups.push(groupUser);
-			}
-			//socket.broadcast.emit('broadcast_join', data);
-		}
+
+        var flag = 0;
+        for (var u = 0; u < users.length; u++) {
+            if (data.isDoc == 1) {
+                if (users[u].userId == data.docId) {
+                    flag = 1;
+                    break;
+                }
+            } else {
+                if (users[u].userId == data.username) {
+                    flag = 1;
+                    break;
+                }
+            }
+        }
+        if (data.isDoc == 0) {//ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
+            //ï¿½Ð¶ï¿½Ò½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
+            for (var g = 0; g < groups.length; g++) {
+                if (groups[g].docId == data.docId) {//Ò½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                    console.log(data.docId + "000000000000000000000");
+                    if (groups[g].openId == data.username) {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                        console.log(data.username + "---------------------");
+                        //socket.broadcast.emit('broadcast_join', data);
+
+                    } else {
+                        socket.broadcast.emit('broadcast_quit', {
+                            username: data.username
+                        });
+                    }
+                } else {//Ò½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+
+                }
+            }
+        }
+        if (flag == 0) {
+            date = new Date(),
+                //console.log(data.username + ' join, IP: ' + socket.client.conn.remoteAddress);
+                connectionList[socketId].username = data.username;
+            var nodeUser = new Object(); //ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
+            console.log(data.isDoc + "is doc");
+            if (data.isDoc == 1) {//Ò½ï¿½ï¿½ï¿½ï¿½Â¼
+                nodeUser.userId = data.docId;;			//Ò½ï¿½ï¿½id
+                usocket[data.docId] = socket;
+                console.log("doc socket" + usocket[data.docId]);
+            } else {
+                nodeUser.userId = data.username;;			//ï¿½Ã»ï¿½id
+                usocket[data.username] = socket;
+                console.log("user socket" + usocket[data.username]);
+            }
+            nodeUser.joinTime = date,
+                nodeUser.socketId = socketId;		//socketID
+            nodeUser.isDoc = data.isDoc;
+            users.push(nodeUser);	     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¶ï¿½ï¿½ï¿½nodeUser
+            var groupUser = new Object(); //ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
+            if (data.isDoc == 1) {//Ò½ï¿½ï¿½ï¿½ï¿½Â¼
+                groupUser.openId = data.username;
+                groupUser.docId = data.docId;
+                groups.push(groupUser);
+            }
+            //socket.broadcast.emit('broadcast_join', data);
+        }
     });
 
-    /*ÓÃ»§Àë¿ªÁÄÌìÊÒ£¬ÏòÆäËûÓÃ»§¹ã²¥ÆäÀë¿ª*/
+    /*ï¿½Ã»ï¿½ï¿½ë¿ªï¿½ï¿½ï¿½ï¿½ï¿½Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ã²¥ï¿½ï¿½ï¿½ë¿ª*/
     socket.on('disconnect', function () {
         if (connectionList[socketId].username) {
             console.log(connectionList[socketId].username + ' quit');
-			 var len  = users.length;
-			if(len > 0) {
+            var len = users.length;
+            if (len > 0) {
 
-					 var ss = delSocketData(connectionList[socketId], len);
-					
-					 console.log("user É¾³ýºóµÄ³¤¶È: " + ss.length);
-			}
-			
-			 console.log("ÇåÀíºóusers ¶ÔÏó¸öÊý: " + users.length);
+                var ss = delSocketData(connectionList[socketId], len);
 
-            for (var i=0; i< users.length; i++) {
-				console.info("ÇåÀíºóusers ¶ÔÏóÐÅÏ¢ " + "userId :" + users[i].userId + "  socketId: " +  users[i].socketId);       
+                console.log("user É¾ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½: " + ss.length);
+            }
 
-             }
-		  /**
+            console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½users ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: " + users.length);
 
-			   »ñÈ¡ÐèÒªÉ¾³ýµÄÓÃ»§ÐÅÏ¢
+            for (var i = 0; i < users.length; i++) {
+                console.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½users ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ " + "userId :" + users[i].userId + "  socketId: " + users[i].socketId);
 
-		  */
+            }
+            /**
+  
+                 ï¿½ï¿½È¡ï¿½ï¿½ÒªÉ¾ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¢
+  
+            */
 
-		  function delSocketData(socketid, usersLen) {
+            function delSocketData(socketid, usersLen) {
 
-			var indexF ;
+                var indexF;
 
-			   for(var i=0,n=0; i<usersLen; i++){
+                for (var i = 0, n = 0; i < usersLen; i++) {
 
-					if(users[i].socketId == socketid){
-						indexF = i;
-						 break;
-						 var gg = delGroupData(users[i].userId);
-						 console.log("=---=-="+gg.length);
-					}
+                    if (users[i].socketId == socketid) {
+                        indexF = i;
+                        break;
+                        var gg = delGroupData(users[i].userId);
+                        console.log("=---=-=" + gg.length);
+                    }
 
-				}
+                }
 
-			//É¾³ýÖ¸¶¨µÄÊý¾ÝÀïÃæµÄ¶ÔÏó£¬ÔÙÖØÐÂ¸´ÖÆ¸øusers
+                //É¾ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¸ï¿½ï¿½Æ¸ï¿½users
 
-			users = users.slice(0,indexF).concat(users.slice(indexF+1,users.length));;
-			return users;
+                users = users.slice(0, indexF).concat(users.slice(indexF + 1, users.length));;
+                return users;
 
-		  }
-		  
-		  /**
+            }
 
-			   »ñÈ¡ÐèÒªÉ¾³ýµÄÓÃ»§ÐÅÏ¢
+            /**
+  
+                 ï¿½ï¿½È¡ï¿½ï¿½ÒªÉ¾ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¢
+  
+            */
 
-		  */
+            function delGroupData(docId) {
 
-		  function delGroupData(docId) {
+                var indexg;
 
-			var indexg ;
+                for (var j = 0; j < groups.length; j++) {
 
-			   for(var j=0; j<groups.length; j++){
+                    if (groups[j].docId == docId) {
+                        indexg = j;
+                        break;
+                    }
 
-					if(groups[j].docId == docId){
-						indexg = j;
-						 break;
-					}
+                }
 
-				}
+                //É¾ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¸ï¿½ï¿½Æ¸ï¿½users
 
-			//É¾³ýÖ¸¶¨µÄÊý¾ÝÀïÃæµÄ¶ÔÏó£¬ÔÙÖØÐÂ¸´ÖÆ¸øusers
+                groups = groups.slice(0, indexg).concat(groups.slice(indexg + 1, groups.length));;
+                return groups;
 
-			groups = groups.slice(0,indexg).concat(groups.slice(indexg+1,groups.length));;
-			return groups;
+            }
 
-		  }
-		
             socket.broadcast.emit('broadcast_quit', {
                 username: connectionList[socketId].username
             });
@@ -176,8 +176,8 @@ io.sockets.on('connection', function (socket) {
         delete connectionList[socketId];
     });
 
-	
-	 //Ë½ÁÄ£º·þÎñÆ÷½ÓÊÜµ½Ë½ÁÄÐÅÏ¢£¬·¢ËÍ¸øÄ¿±êÓÃ»§  
+
+    //Ë½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Üµï¿½Ë½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½Ä¿ï¿½ï¿½ï¿½Ã»ï¿½  
     /*socket.on('private_message', function (from,to,msg)  
     {  
         var target = usocket[to];  
@@ -186,22 +186,21 @@ io.sockets.on('connection', function (socket) {
             console.log('emitting private message by ', from, ' say to ',to, msg);  
             target.emit("pmsg",from,to,msg);  
         }  
-    });*/  
-	
-    //Ë½ÁÄ£º·þÎñÆ÷½ÓÊÜµ½Ë½ÁÄÐÅÏ¢£¬·¢ËÍ¸øÄ¿±êÓÃ»§  
+    });*/
+
+    //Ë½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Üµï¿½Ë½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½Ä¿ï¿½ï¿½ï¿½Ã»ï¿½  
     socket.on('say', function (data) {
         //console.log("Received Message: " + data.text);
-		//console.log("Received people: " + data.to);
-		//console.log("from people: " + data.userfrom);
-		 var target = usocket[data.to];  
-		 console.log(target+"target");
-			if(target)  
-			{  
-				console.log('emitting private message by ', data.userfrom, ' say to ',data.to, data.text);  
-				target.emit("pmsg",data.userfrom,data.to,data.text);  
-			}else{
-				//´æ¿âÀï£¬·¢Í¨Öª¸øÒ½Éú	
-			}  
+        //console.log("Received people: " + data.to);
+        //console.log("from people: " + data.userfrom);
+        var target = usocket[data.to];
+        console.log(target + "target");
+        if (target) {
+            console.log('emitting private message by ', data.userfrom, ' say to ', data.to, data.text);
+            target.emit("pmsg", data.userfrom, data.to, data.text);
+        } else {
+            //ï¿½ï¿½ï¿½ï¿½ï£¬ï¿½ï¿½Í¨Öªï¿½ï¿½Ò½ï¿½ï¿½	
+        }
     });
-	
+
 });

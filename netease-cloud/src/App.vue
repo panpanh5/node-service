@@ -54,6 +54,19 @@ export default {
       },
     };
   },
+  created() {
+    console.log(sessionStorage.getItem("store"));
+    // if (sessionStorage.getItem("store")) {
+    //   this.$store.replaceState(
+    //     Object.assign(
+    //       {},
+    //       this.$store.state,
+    //       JSON.parse(sessionStorage.getItem("store"))
+    //     )
+    //   );
+    //   sessionStorage.removeItem("store");
+    // }
+  },
 };
 </script>
 <style lang="scss" scoped>
