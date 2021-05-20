@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      if (value) {
+        const fields = ["A0136", "A0131"];
+        const fields2 = ["A0133", "A0134"];
+        fieldList.forEach((v) => {
+          if (value === "01" || value === "04" || value === "07") {
+            v.visible = fields.indexOf(v.TABLE_COLUMN_CODE) > -1;
+          } else if (value !== "01" && value !== "04" && value !== "07") {
+            v.visible = fields2.indexOf(v.TABLE_COLUMN_CODE) > -1;
+          }
+        });
+        fieldList = [...fieldList];
+      }
+      return {};
+    </script>
+  </body>
+</html>

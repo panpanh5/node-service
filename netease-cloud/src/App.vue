@@ -10,8 +10,9 @@
           :class="{ item_active: header.currentId === item.id }"
           @click="header.currentId = item.id"
         >
-          <div style="width: 100px">
-            <router-link :to="item.path"> {{ item.title }}</router-link>
+          <div @click="jumpRoter(item)">
+            <!-- <router-link :to="item.path"> </router-link> -->
+            {{ item.title }}
           </div>
           <div class="arrow"></div>
         </div>
@@ -30,6 +31,7 @@
   </div>
 </template>
 <script>
+// import { citys } from "./service/city/city";
 export default {
   name: "App",
   data() {
@@ -54,8 +56,10 @@ export default {
       },
     };
   },
+
   created() {
-    console.log(sessionStorage.getItem("store"));
+    // let address = await citys.city();
+    // console.log(address);
     // if (sessionStorage.getItem("store")) {
     //   this.$store.replaceState(
     //     Object.assign(
@@ -66,10 +70,21 @@ export default {
     //   );
     //   sessionStorage.removeItem("store");
     // }
+    console.log(11);
+  },
+  methods: {
+    jumpRoter(item) {
+      if (item.path === "shop") {
+        window.open("http://localhost:8001/shop", "商城");
+        console.log(document);
+        return;
+      }
+      this.$router.push({ path: `/${item.path}` });
+    },
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 * {
   margin: 0;
   padding: 0;
@@ -86,6 +101,8 @@ body {
   overflow: hidden;
   background-color: #f5f5f5;
 }
+</style>
+<style scoped lang="scss">
 #app {
   width: 100%;
   height: 100%;
@@ -113,6 +130,11 @@ body {
         justify-content: center;
         position: relative;
         text-align: center;
+        & > div {
+          cursor: pointer;
+          height: 70px;
+          line-height: 70px;
+        }
       }
       .item:hover {
         background-color: #000;

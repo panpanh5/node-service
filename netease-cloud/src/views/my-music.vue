@@ -77,10 +77,7 @@ export default {
       console.log(this.$axios);
       // 为给定 ID 的 user 创建请求
       this.$axios
-        .post(
-          "http://localhost:41004/api/gl-service-sys-user/v1/user/system/auth/login",
-          { data: "39a995b6fe1da1a99c00f91c2424f274022280f15117eb51" }
-        )
+        .post("", { data: "" })
         .then(function (response) {
           console.log(response);
         })

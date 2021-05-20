@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jsonp</title>
+  </head>
+  <body>
+    <div>
+      <div id="mydiv">
+        <button id="btn">点击</button>
+      </div>
+    </div>
+    <script type="text/javascript">
+      window.onload = function () {
+        var oBtn = document.getElementById("btn");
+
+        oBtn.onclick = function () {
+          var script = document.createElement("script");
+          script.src = "https://www.zhihu.com/api/v4/creators/analysis/card";
+          document.body.insertBefore(script, document.body.firstChild);
+        };
+      };
+    </script>
+  </body>
+</html>
